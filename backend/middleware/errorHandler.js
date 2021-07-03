@@ -23,16 +23,15 @@ const errorHandler = (err, req, res, next) => {
         error = new ErrorResponse(message, 400);
     }
 
-    const status = error.statusCode || 500;;
-    const message = error.message ||
-            "Unexpected error occurred! Internal server error!",
+    const status = error.statusCode || 500;
+    const message =
+        error.message || "Unexpected error occurred! Internal server error!";
 
     return res.status(status).json({
         success: false,
         status,
-        message
-    })
-
+        message,
+    });
 };
 
 module.exports = errorHandler;
