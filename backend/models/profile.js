@@ -9,7 +9,7 @@ const profileSchema = new mongoose.Schema(
         },
         location: {
             type: String,
-            minLength: 1,
+            minLength: 2,
             trim: true,
         },
         company: {
@@ -24,15 +24,26 @@ const profileSchema = new mongoose.Schema(
         },
         status: {
             type: String,
+            enum: [
+                "Developer",
+                "Junior Developer",
+                "Senior Developer",
+                "Manager",
+                "Student",
+                "Instructor",
+                "Intern",
+                "Other",
+            ],
             require: [true, "status can not be left empty!"],
             trim: true,
         },
         skills: {
-            type: [String],
+            type: [{ type: String, trim: true }],
             required: [true, "Please provide at least one skill!"],
         },
         bio: {
             type: String,
+            trim: true,
             maxLength: 256,
         },
         githubUsername: {
@@ -44,10 +55,12 @@ const profileSchema = new mongoose.Schema(
                 {
                     title: {
                         type: String,
+                        trim: true,
                         required: [true, "Please provide title!"],
                     },
                     organization: {
                         type: String,
+                        trim: true,
                         required: [
                             true,
                             "Please provide organization/company!",
@@ -55,6 +68,7 @@ const profileSchema = new mongoose.Schema(
                     },
                     location: {
                         type: String,
+                        trim: true,
                         required: [
                             true,
                             "Please provide the address location!",
@@ -73,6 +87,7 @@ const profileSchema = new mongoose.Schema(
                     },
                     description: {
                         type: String,
+                        trim: true,
                         maxLength: 256,
                     },
                 },
@@ -83,18 +98,22 @@ const profileSchema = new mongoose.Schema(
                 {
                     school: {
                         type: String,
+                        trim: true,
                         required: [true, "Please provide school!"],
                     },
                     degree: {
                         type: String,
+                        trim: true,
                         required: [true, "Please provide degree/diploma!"],
                     },
                     fieldOfStudy: {
                         type: String,
+                        trim: true,
                         required: [true, "Please provide degree/diploma!"],
                     },
                     location: {
                         type: String,
+                        trim: true,
                         required: [
                             true,
                             "Please provide the school/institute location!",
@@ -113,6 +132,7 @@ const profileSchema = new mongoose.Schema(
                     },
                     description: {
                         type: String,
+                        trim: true,
                         maxLength: 256,
                     },
                 },
@@ -126,9 +146,6 @@ const profileSchema = new mongoose.Schema(
                 type: String,
             },
             github: {
-                type: String,
-            },
-            facebook: {
                 type: String,
             },
             instagram: {
