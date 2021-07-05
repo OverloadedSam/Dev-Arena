@@ -3,7 +3,7 @@ const User = require("../models/user");
 const ErrorResponse = require("../utils/errorResponse");
 const secret = require("config").get("secret");
 
-const protect = (req, res, next) => {
+const protect = async (req, res, next) => {
     let token;
 
     // When user is logged in.
