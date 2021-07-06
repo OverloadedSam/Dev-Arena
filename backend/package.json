@@ -15,7 +15,8 @@
     "express": "^4.17.1",
     "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.13.0"
+    "mongoose": "^5.13.0",
+    "normalize-url": "^6.1.0"
   },
   "devDependencies": {
     "morgan": "^1.10.0",
