@@ -27,12 +27,15 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
     await user.save();
 
-    return res.status(201).json({
+    const token = user.generateAuthToken();
+
+    return res.status(201).header("x-auth-token", token).json({
         success: true,
         status: 201,
         _id: user._id,
         name: user.name,
         email: user.email,
+        token,
     });
 });
 
