@@ -8,6 +8,7 @@ server.use(express.json({ extended: true }));
 
 // Routers
 const userRoutes = require("./routes/users");
+const loginRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profiles");
 
 if (server.get("env") !== "production") {
@@ -19,6 +20,7 @@ connectDb();
 
 // Routes
 server.use(apiUrl, userRoutes);
+server.use(apiUrl, loginRoutes);
 server.use(apiUrl, profileRoutes);
 
 server.use(errorHandler); // Custom error handler.
