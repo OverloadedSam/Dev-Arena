@@ -27,6 +27,20 @@ const getProfileById = asyncHandler(async (req, res, next) => {
     });
 });
 
+// @route    GET /api/profiles
+// @desc     Get profile of all users.
+// @access   Public
+const getProfiles = asyncHandler(async (req, res, next) => {
+    const profiles = await Profile.find().populate("user", ["name"]);
+
+    return res.status(200).json({
+        success: true,
+        status: 200,
+        data: profiles,
+    });
+});
+
 module.exports = {
     getProfileById,
+    getProfiles,
 };
