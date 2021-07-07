@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const protect = require("../middleware/protect");
+const checkObjectId = require("../middleware/checkObjectId");
 const {
     getProfileById,
     getProfiles,
@@ -9,9 +10,10 @@ const {
     deleteProfileExperience,
     addProfileEduction,
     deleteProfileEduction,
+    getCurrentUserProfile,
 } = require("../controllers/profiles");
-const checkObjectId = require("../middleware/checkObjectId");
 
+router.get("/profile/me", protect, getCurrentUserProfile);
 router.get("/profile/user/:id", checkObjectId("id"), getProfileById);
 router.put("/profile/experience", protect, addProfileExperience);
 router.delete(

@@ -8,6 +8,31 @@ const {
     validateProfileEducationData,
 } = require("../utils/validateData");
 
+// @route    GET /api/profile/me
+// @desc     Get profile of current user.
+// @access   Public/Protected
+const getCurrentUserProfile = asyncHandler(async (req, res, next) => {
+    const userId = req.user._id;
+    const profile = await Profile.findOne({ user: userId }).populate("user", [
+        "name",
+        "email",
+    ]);
+
+    if (!profile)
+        return next(
+            new ErrorResponse(
+                `Your profile with id ${req.params.id} not found! Please try again later.`,
+                404
+            )
+        );
+
+    return res.status(200).json({
+        success: true,
+        status: 200,
+        data: profile,
+    });
+});
+
 // @route    GET /api/profile/user/:id
 // @desc     Get profile of a user by id.
 // @access   Public
@@ -187,6 +212,7 @@ const deleteProfileEduction = asyncHandler(async (req, res, next) => {
 });
 
 module.exports = {
+    getCurrentUserProfile,
     getProfileById,
     getProfiles,
     createProfile,
