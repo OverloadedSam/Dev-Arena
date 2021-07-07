@@ -31,3 +31,19 @@ const profileSchema = {
 exports.validateProfileData = (data) => {
     return ({ value, error } = Joi.object(profileSchema).validate(data));
 };
+
+const profileExperienceSchema = {
+    title: Joi.string().required().label("Title"),
+    organization: Joi.string().required().label("Organization"),
+    location: Joi.string().required().label("Location"),
+    from: Joi.date().required().label("Starting date"),
+    to: Joi.date().label("Ending date"),
+    current: Joi.boolean().label("Current"),
+    description: Joi.string().max(256).allow("").label("Description"),
+};
+
+exports.validateProfileExperienceData = (data) => {
+    return ({ value, error } = Joi.object(profileExperienceSchema).validate(
+        data
+    ));
+};

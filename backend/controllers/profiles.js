@@ -2,7 +2,10 @@ const normalize = require("normalize-url");
 const Profile = require("../models/profile");
 const asyncHandler = require("../middleware/asyncHandler");
 const ErrorResponse = require("../utils/errorResponse");
-const { validateProfileData } = require("../utils/validateData");
+const {
+    validateProfileData,
+    validateProfileExperienceData,
+} = require("../utils/validateData");
 
 // @route    GET /api/profile/user/:id
 // @desc     Get profile of a user by id.
@@ -78,8 +81,43 @@ const createProfile = asyncHandler(async (req, res, next) => {
     });
 });
 
+// @route    PUT /api/profile/experience
+// @desc     Create profile experience.
+// @access   Public/Protected
+const addProfileExperience = asyncHandler(async (req, res, next) => {
+    const userId = req.user._id;
+    const experienceFields = { ...req.body };
+
+    if (!userId)
+        return next(
+            new ErrorResponse(
+                `Profile with id ${req.params.id} not found!`,
+                404
+            )
+        );
+
+    // Data validation
+    const { error } = validateProfileExperienceData(experienceFields);
+    if (error) return next(new ErrorResponse(error.details[0].message, 406));
+
+    const profileFound = await Profile.findOne({ user: userId });
+
+    if (!profileFound)
+        return next(new ErrorResponse("Profile not found!", 404));
+
+    profileFound.experiences.unshift(experienceFields);
+    await profileFound.save();
+
+    return res.status(200).json({
+        success: true,
+        status: 200,
+        data: profileFound,
+    });
+});
+
 module.exports = {
     getProfileById,
     getProfiles,
     createProfile,
+    addProfileExperience,
 };
