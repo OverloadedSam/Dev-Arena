@@ -115,9 +115,41 @@ const addProfileExperience = asyncHandler(async (req, res, next) => {
     });
 });
 
+// @route    DELETE /api/profile/delete/experience/:exp_id
+// @desc     Delete profile experience from array.
+// @access   Public/Protected
+const deleteProfileExperience = asyncHandler(async (req, res, next) => {
+    const userId = req.user._id;
+    const experienceId = req.params.exp_id;
+
+    if (!userId)
+        return next(
+            new ErrorResponse(`Profile with id ${experienceId} not found!`, 404)
+        );
+
+    const profileFound = await Profile.findOne({ user: userId });
+
+    if (!profileFound)
+        return next(new ErrorResponse("Profile not found!", 404));
+
+    // Delete that experience by filtering experiences array by exp_id.
+    profileFound.experiences = profileFound.experiences.filter(
+        (exp) => !exp._id.equals(experienceId)
+    );
+
+    await profileFound.save();
+
+    return res.status(200).json({
+        success: true,
+        status: 200,
+        data: profileFound,
+    });
+});
+
 module.exports = {
     getProfileById,
     getProfiles,
     createProfile,
     addProfileExperience,
+    deleteProfileExperience,
 };

@@ -5,12 +5,19 @@ const {
     getProfileById,
     getProfiles,
     createProfile,
-    addProfileExperience
+    addProfileExperience,
+    deleteProfileExperience,
 } = require("../controllers/profiles");
 const checkObjectId = require("../middleware/checkObjectId");
 
 router.get("/profile/user/:id", checkObjectId("id"), getProfileById);
 router.put("/profile/experience", protect, addProfileExperience);
+router.delete(
+    "/profile/delete/experience/:exp_id",
+    checkObjectId("exp_id"),
+    protect,
+    deleteProfileExperience
+);
 router.get("/profiles", getProfiles);
 router.post("/profile/", protect, createProfile);
 
