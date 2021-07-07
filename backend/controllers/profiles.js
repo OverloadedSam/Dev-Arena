@@ -5,6 +5,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const {
     validateProfileData,
     validateProfileExperienceData,
+    validateProfileEducationData,
 } = require("../utils/validateData");
 
 // @route    GET /api/profile/user/:id
@@ -88,14 +89,6 @@ const addProfileExperience = asyncHandler(async (req, res, next) => {
     const userId = req.user._id;
     const experienceFields = { ...req.body };
 
-    if (!userId)
-        return next(
-            new ErrorResponse(
-                `Profile with id ${req.params.id} not found!`,
-                404
-            )
-        );
-
     // Data validation
     const { error } = validateProfileExperienceData(experienceFields);
     if (error) return next(new ErrorResponse(error.details[0].message, 406));
@@ -122,11 +115,6 @@ const deleteProfileExperience = asyncHandler(async (req, res, next) => {
     const userId = req.user._id;
     const experienceId = req.params.exp_id;
 
-    if (!userId)
-        return next(
-            new ErrorResponse(`Profile with id ${experienceId} not found!`, 404)
-        );
-
     const profileFound = await Profile.findOne({ user: userId });
 
     if (!profileFound)
@@ -146,10 +134,37 @@ const deleteProfileExperience = asyncHandler(async (req, res, next) => {
     });
 });
 
+// @route    PUT /api/profile/eduction
+// @desc     Create profile eduction.
+// @access   Public/Protected
+const addProfileEduction = asyncHandler(async (req, res, next) => {
+    const userId = req.user._id;
+    const educationFields = { ...req.body };
+
+    // Data validation
+    const { error } = validateProfileEducationData(educationFields);
+    if (error) return next(new ErrorResponse(error.details[0].message, 406));
+
+    const profileFound = await Profile.findOne({ user: userId });
+
+    if (!profileFound)
+        return next(new ErrorResponse("Profile not found!", 404));
+
+    profileFound.education.unshift(educationFields);
+    await profileFound.save();
+
+    return res.status(200).json({
+        success: true,
+        status: 200,
+        data: profileFound,
+    });
+});
+
 module.exports = {
     getProfileById,
     getProfiles,
     createProfile,
     addProfileExperience,
     deleteProfileExperience,
+    addProfileEduction,
 };

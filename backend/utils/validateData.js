@@ -47,3 +47,20 @@ exports.validateProfileExperienceData = (data) => {
         data
     ));
 };
+
+const profileEducationSchema = {
+    school: Joi.string().required().label("School"),
+    degree: Joi.string().required().label("Degree"),
+    fieldOfStudy: Joi.string().required().label("Field of study"),
+    location: Joi.string().required().label("Location"),
+    from: Joi.date().required().label("Starting date"),
+    to: Joi.date().label("Ending date"),
+    current: Joi.boolean().label("Current"),
+    description: Joi.string().max(256).allow("").label("Description"),
+};
+
+exports.validateProfileEducationData = (data) => {
+    return ({ value, error } = Joi.object(profileEducationSchema).validate(
+        data
+    ));
+};
