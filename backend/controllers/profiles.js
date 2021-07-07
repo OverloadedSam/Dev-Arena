@@ -2,6 +2,7 @@ const normalize = require("normalize-url");
 const Profile = require("../models/profile");
 const asyncHandler = require("../middleware/asyncHandler");
 const ErrorResponse = require("../utils/errorResponse");
+const { validateProfileData } = require("../utils/validateData");
 
 // @route    GET /api/profile/user/:id
 // @desc     Get profile of a user by id.
@@ -40,7 +41,45 @@ const getProfiles = asyncHandler(async (req, res, next) => {
     });
 });
 
+// @route    POST /api/profile:id
+// @desc     Create or update profile of a user by id.
+// @access   Public/Protected
+const createProfile = asyncHandler(async (req, res, next) => {
+    const userId = req.user._id;
+    const profileFields = { ...req.body };
+    let { socialHandles } = profileFields;
+
+    // Data validation
+    const { error } = validateProfileData(profileFields);
+    if (error) return next(new ErrorResponse(error.details[0].message, 406));
+
+    // Make links proper valid url.
+    const urlOptions = { forceHttps: true };
+    profileFields.website =
+        profileFields.website && normalize(profileFields.website, urlOptions);
+
+    const iterable = Object.entries(socialHandles);
+    for (const [key, value] of iterable) {
+        socialHandles[key] = normalize(value, urlOptions);
+    }
+
+    const filter = { user: userId };
+    const options = { new: true, upsert: true, useFindAndModify: false }; // Using upsert: creates new doc if no match is found.
+    const profile = await Profile.findOneAndUpdate(
+        filter,
+        { $set: profileFields },
+        options
+    );
+
+    return res.status(200).json({
+        success: true,
+        status: 201,
+        data: profile,
+    });
+});
+
 module.exports = {
     getProfileById,
     getProfiles,
+    createProfile,
 };
