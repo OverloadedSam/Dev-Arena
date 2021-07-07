@@ -160,6 +160,32 @@ const addProfileEduction = asyncHandler(async (req, res, next) => {
     });
 });
 
+// @route    DELETE /api/profile/delete/education/:exp_id
+// @desc     Delete profile education from array.
+// @access   Public/Protected
+const deleteProfileEduction = asyncHandler(async (req, res, next) => {
+    const userId = req.user._id;
+    const educationId = req.params.edu_id;
+
+    const profileFound = await Profile.findOne({ user: userId });
+
+    if (!profileFound)
+        return next(new ErrorResponse("Profile not found!", 404));
+
+    // Delete that education by filtering experiences array by exp_id.
+    profileFound.education = profileFound.education.filter(
+        (edu) => !edu._id.equals(educationId)
+    );
+
+    await profileFound.save();
+
+    return res.status(200).json({
+        success: true,
+        status: 200,
+        data: profileFound,
+    });
+});
+
 module.exports = {
     getProfileById,
     getProfiles,
@@ -167,4 +193,5 @@ module.exports = {
     addProfileExperience,
     deleteProfileExperience,
     addProfileEduction,
+    deleteProfileEduction,
 };

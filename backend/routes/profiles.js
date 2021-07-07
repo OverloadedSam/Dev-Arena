@@ -8,6 +8,7 @@ const {
     addProfileExperience,
     deleteProfileExperience,
     addProfileEduction,
+    deleteProfileEduction,
 } = require("../controllers/profiles");
 const checkObjectId = require("../middleware/checkObjectId");
 
@@ -20,6 +21,12 @@ router.delete(
     deleteProfileExperience
 );
 router.put("/profile/education", protect, addProfileEduction);
+router.delete(
+    "/profile/delete/education/:edu_id",
+    checkObjectId("edu_id"),
+    protect,
+    deleteProfileEduction
+);
 router.get("/profiles", getProfiles);
 router.post("/profile/", protect, createProfile);
 
