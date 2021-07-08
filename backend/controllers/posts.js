@@ -179,6 +179,45 @@ const createComment = asyncHandler(async (req, res, next) => {
     });
 });
 
+// @route    DELETE /api/post/comment/:post_id/:com_id
+// @desc     Delete a comment from a post by specifying post and comment id.
+// @access   Protected
+const deleteComment = asyncHandler(async (req, res, next) => {
+    const userId = req.user._id;
+    const postId = req.params.post_id;
+    const commentId = req.params.com_id;
+
+    const post = await Post.findById(postId);
+    if (!post) return next(new ErrorResponse("Post not found!", 404));
+
+    let commentIndex = null;
+    const comment = post.comments.find((comment, index) => {
+        if (comment._id.equals(commentId)) {
+            commentIndex = index;
+            return comment;
+        }
+    });
+
+    if (!comment) return next(new ErrorResponse("Comment not found!", 404));
+
+    if (!comment.user.equals(userId))
+        return next(
+            new ErrorResponse(
+                "You have no authority to delete this comment!",
+                403
+            )
+        );
+
+    post.comments.splice(commentIndex, 1);
+    post.save();
+
+    return res.status(200).json({
+        success: true,
+        status: 200,
+        message: "Your comment has been deleted!",
+    });
+});
+
 module.exports = {
     getPostById,
     getPosts,
@@ -187,4 +226,5 @@ module.exports = {
     upVotePost,
     downVotePost,
     createComment,
+    deleteComment,
 };
