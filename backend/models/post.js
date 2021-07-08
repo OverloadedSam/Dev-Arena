@@ -10,10 +10,12 @@ const postSchema = new Schema(
         },
         title: {
             type: String,
+            trim: true,
             required: [true, "Please provide the title for the post!"],
         },
         body: {
             type: String,
+            trim: true,
             required: [true, "Please provide the body of the post!"],
         },
         votes: {
@@ -37,6 +39,7 @@ const postSchema = new Schema(
                 },
                 body: {
                     type: String,
+                    trim: true,
                     required: [true, "Please give some text for comment!"],
                 },
                 date: {

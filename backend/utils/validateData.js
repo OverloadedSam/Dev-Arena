@@ -70,10 +70,14 @@ const postSchema = {
     body: Joi.string().required().label("Body"),
     comment: Joi.object({
         user: Joi.string().required().label("Username"),
-        body: Joi.string().required(),
+        body: Joi.string().required().label("Body"),
     }),
 };
 
 exports.validatePostData = (data) => {
     return ({ value, error } = Joi.object(postSchema).validate(data));
+};
+
+exports.validateCommentData = (data) => {
+    return ({ value, error } = postSchema.comment.validate(data));
 };
