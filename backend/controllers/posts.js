@@ -1,7 +1,10 @@
 const Post = require("../models/post");
 const asyncHandler = require("../middleware/asyncHandler");
 const ErrorResponse = require("../utils/errorResponse");
-const { validatePostData } = require("../utils/validateData");
+const {
+    validatePostData,
+    validateCommentData,
+} = require("../utils/validateData");
 
 // @route    GET /api/post/:post_id
 // @desc     Get post by specifying id.
@@ -149,6 +152,33 @@ const downVotePost = asyncHandler(async (req, res, next) => {
     });
 });
 
+// @route    POST /api/post/comment/:post_id
+// @desc     Comment on a post by specifying id.
+// @access   Protected
+const createComment = asyncHandler(async (req, res, next) => {
+    const userId = req.user._id;
+    const postId = req.params.post_id;
+
+    const comment = { ...req.body };
+    comment.user = userId.toString();
+
+    // Validate data
+    const { error } = validateCommentData(comment);
+    if (error) return next(new ErrorResponse(error.details[0].message, 406));
+
+    const post = await Post.findById(postId);
+    if (!post) return next(new ErrorResponse("Post not found!", 404));
+
+    post.comments.push(comment);
+    post.save();
+
+    return res.status(201).json({
+        success: true,
+        status: 201,
+        data: post.comments,
+    });
+});
+
 module.exports = {
     getPostById,
     getPosts,
@@ -156,4 +186,5 @@ module.exports = {
     deletePost,
     upVotePost,
     downVotePost,
+    createComment,
 };

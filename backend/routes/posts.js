@@ -9,6 +9,7 @@ const {
     deletePost,
     upVotePost,
     downVotePost,
+    createComment,
 } = require("../controllers/posts");
 
 router
@@ -26,6 +27,12 @@ router.put(
     checkObjectId("post_id"),
     protect,
     downVotePost
+);
+router.post(
+    "/post/comment/:post_id",
+    checkObjectId("post_id"),
+    protect,
+    createComment
 );
 router.route("/posts").get(protect, getPosts).post(protect, createPost);
 
