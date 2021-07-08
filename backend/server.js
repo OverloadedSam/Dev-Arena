@@ -10,6 +10,7 @@ server.use(express.json({ extended: true }));
 const userRoutes = require("./routes/users");
 const loginRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profiles");
+const postRoutes = require("./routes/posts");
 
 if (server.get("env") !== "production") {
     const morgan = require("morgan");
@@ -22,6 +23,7 @@ connectDb();
 server.use(apiUrl, userRoutes);
 server.use(apiUrl, loginRoutes);
 server.use(apiUrl, profileRoutes);
+server.use(apiUrl, postRoutes);
 
 server.use(errorHandler); // Custom error handler.
 
