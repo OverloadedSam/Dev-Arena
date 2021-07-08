@@ -64,3 +64,16 @@ exports.validateProfileEducationData = (data) => {
         data
     ));
 };
+
+const postSchema = {
+    title: Joi.string().required().label("Title"),
+    body: Joi.string().required().label("Body"),
+    comment: Joi.object({
+        user: Joi.string().required().label("Username"),
+        body: Joi.string().required(),
+    }),
+};
+
+exports.validatePostData = (data) => {
+    return ({ value, error } = Joi.object(postSchema).validate(data));
+};

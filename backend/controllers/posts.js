@@ -1,6 +1,7 @@
 const Post = require("../models/post");
 const asyncHandler = require("../middleware/asyncHandler");
 const ErrorResponse = require("../utils/errorResponse");
+const { validatePostData } = require("../utils/validateData");
 
 // @route    GET /api/post/:post_id
 // @desc     Get post by specifying id.
@@ -33,7 +34,29 @@ const getPosts = asyncHandler(async (req, res, next) => {
     });
 });
 
+// @route    POST /api/posts
+// @desc     Create a post.
+// @access   Protected
+const createPost = asyncHandler(async (req, res, next) => {
+    const userId = req.user._id;
+    const postData = { ...req.body };
+
+    const { error } = validatePostData(req.body);
+    if (error) return next(new ErrorResponse(error.details[0].message, 406));
+
+    postData.user = userId;
+    const newPost = new Post(postData);
+    await newPost.save();
+
+    return res.status(200).json({
+        success: true,
+        status: 200,
+        data: newPost,
+    });
+});
+
 module.exports = {
     getPostById,
     getPosts,
+    createPost,
 };
