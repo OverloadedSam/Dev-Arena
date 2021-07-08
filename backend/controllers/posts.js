@@ -79,9 +79,81 @@ const deletePost = asyncHandler(async (req, res, next) => {
     });
 });
 
+// @route    PUT /api/post/upvote/:post_id
+// @desc     UpVote a post by specifying id.
+// @access   Protected
+const upVotePost = asyncHandler(async (req, res, next) => {
+    const userId = req.user._id;
+    const postId = req.params.post_id;
+
+    const post = await Post.findById(postId);
+
+    if (!post) return next(new ErrorResponse("Post not found!", 404));
+
+    let upVoteIndex = post.votes.upVotes.indexOf(userId);
+    let downVoteIndex = post.votes.downVotes.indexOf(userId);
+
+    // Remove user from downVotes array if user downvoted the post and add user to upVotes array.
+    if (downVoteIndex !== -1) {
+        post.votes.downVotes.splice(downVoteIndex, 1); // Remove user from downVotes
+        post.votes.upVotes.push(userId); // Add user to upVotes
+    } else {
+        // Remove user form upVotes array if user already upvoted the post else add user to upVotes array.
+        if (upVoteIndex !== -1) post.votes.upVotes.splice(upVoteIndex, 1);
+        else post.votes.upVotes.push(userId);
+    }
+
+    await post.save();
+
+    return res.status(200).json({
+        success: true,
+        status: 200,
+        votes: post.votes,
+        upVotesCount: post.votes.upVotes.length,
+        downVotesCount: post.votes.downVotes.length,
+    });
+});
+
+// @route    PUT /api/post/downvote/:post_id
+// @desc     DownVote a post by specifying id.
+// @access   Protected
+const downVotePost = asyncHandler(async (req, res, next) => {
+    const userId = req.user._id;
+    const postId = req.params.post_id;
+
+    const post = await Post.findById(postId);
+
+    if (!post) return next(new ErrorResponse("Post not found!", 404));
+
+    let upVoteIndex = post.votes.upVotes.indexOf(userId);
+    let downVoteIndex = post.votes.downVotes.indexOf(userId);
+
+    // Remove user from upVotes array if user upvoted the post and add user to downVotes array.
+    if (upVoteIndex !== -1) {
+        post.votes.upVotes.splice(upVoteIndex, 1); // Remove user from upVotes
+        post.votes.downVotes.push(userId); // Add user to downVotes
+    } else {
+        // Remove user form downVotes array if user already downvoted the post else add user to downVotes array.
+        if (downVoteIndex !== -1) post.votes.downVotes.splice(downVoteIndex, 1);
+        else post.votes.downVotes.push(userId);
+    }
+
+    await post.save();
+
+    return res.status(200).json({
+        success: true,
+        status: 200,
+        votes: post.votes,
+        upVotesCount: post.votes.upVotes.length,
+        downVotesCount: post.votes.downVotes.length,
+    });
+});
+
 module.exports = {
     getPostById,
     getPosts,
     createPost,
     deletePost,
+    upVotePost,
+    downVotePost,
 };
