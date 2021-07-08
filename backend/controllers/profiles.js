@@ -10,7 +10,7 @@ const {
 
 // @route    GET /api/profile/me
 // @desc     Get profile of current user.
-// @access   Public/Protected
+// @access   Protected
 const getCurrentUserProfile = asyncHandler(async (req, res, next) => {
     const userId = req.user._id;
     const profile = await Profile.findOne({ user: userId }).populate("user", [
@@ -72,7 +72,7 @@ const getProfiles = asyncHandler(async (req, res, next) => {
 
 // @route    POST /api/profile:id
 // @desc     Create or update profile of a user by id.
-// @access   Public/Protected
+// @access   Protected
 const createProfile = asyncHandler(async (req, res, next) => {
     const userId = req.user._id;
     const profileFields = { ...req.body };
@@ -109,7 +109,7 @@ const createProfile = asyncHandler(async (req, res, next) => {
 
 // @route    PUT /api/profile/experience
 // @desc     Create profile experience.
-// @access   Public/Protected
+// @access   Protected
 const addProfileExperience = asyncHandler(async (req, res, next) => {
     const userId = req.user._id;
     const experienceFields = { ...req.body };
@@ -135,7 +135,7 @@ const addProfileExperience = asyncHandler(async (req, res, next) => {
 
 // @route    DELETE /api/profile/delete/experience/:exp_id
 // @desc     Delete profile experience from array.
-// @access   Public/Protected
+// @access   Protected
 const deleteProfileExperience = asyncHandler(async (req, res, next) => {
     const userId = req.user._id;
     const experienceId = req.params.exp_id;
@@ -161,7 +161,7 @@ const deleteProfileExperience = asyncHandler(async (req, res, next) => {
 
 // @route    PUT /api/profile/eduction
 // @desc     Create profile eduction.
-// @access   Public/Protected
+// @access   Protected
 const addProfileEduction = asyncHandler(async (req, res, next) => {
     const userId = req.user._id;
     const educationFields = { ...req.body };
@@ -187,7 +187,7 @@ const addProfileEduction = asyncHandler(async (req, res, next) => {
 
 // @route    DELETE /api/profile/delete/education/:exp_id
 // @desc     Delete profile education from array.
-// @access   Public/Protected
+// @access   Protected
 const deleteProfileEduction = asyncHandler(async (req, res, next) => {
     const userId = req.user._id;
     const educationId = req.params.edu_id;
