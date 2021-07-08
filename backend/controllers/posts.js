@@ -55,8 +55,33 @@ const createPost = asyncHandler(async (req, res, next) => {
     });
 });
 
+// @route    DELETE /api/post/:post_id
+// @desc     Delete a post by specifying id.
+// @access   Protected
+const deletePost = asyncHandler(async (req, res, next) => {
+    const userId = req.user._id;
+    const postId = req.params.post_id;
+
+    const post = await Post.findById(postId);
+
+    // Check if the post belongs to the current user or not.
+    if (!post.user.equals(userId))
+        return next(
+            new ErrorResponse("You have no authority to delete this post!", 403)
+        );
+
+    await post.remove();
+
+    return res.status(200).json({
+        success: true,
+        status: 200,
+        message: "Post has been removed successfully",
+    });
+});
+
 module.exports = {
     getPostById,
     getPosts,
     createPost,
+    deletePost,
 };
