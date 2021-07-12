@@ -6,6 +6,7 @@ import {
     Switch,
 } from "react-router-dom";
 import Header from "./components/header";
+import Footer from "./components/footer";
 import HomeScreen from "./screens/homeScreen";
 
 import "./css/bootstrap.min.css";
@@ -24,6 +25,7 @@ const App = () => {
                             <Redirect exact from="/" to="/home" />
                         </Switch>
                     </main>
+                    <Footer />
                 </>
             </Router>
         </>
