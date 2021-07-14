@@ -17,7 +17,7 @@ const userLogin = asyncHandler(async (req, res, next) => {
 
     if (!user) return next(new ErrorResponse("Invalid email!"));
 
-    if (await !user.matchPassword(password))
+    if (!(await user.matchPassword(password)))
         return next(new ErrorResponse("Invalid password!", 400));
 
     const token = user.generateAuthToken();
