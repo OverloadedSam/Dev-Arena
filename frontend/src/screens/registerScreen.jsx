@@ -8,7 +8,6 @@ import Col from "react-bootstrap/Col";
 import BootstrapForm from "react-bootstrap/Form";
 import Form from "../common/form";
 import { registerUser, resetRegisterUser } from "../redux/actions/userActions";
-import auth from "../services/authService";
 
 class RegisterScreen extends Form {
     state = {
@@ -53,9 +52,9 @@ class RegisterScreen extends Form {
     }
 
     render() {
-        if (auth.getCurrentUser()) return <Redirect to="/home" />;
-        const { responseError } = this.state;
+        if (this.props.isLoggedIn) return <Redirect to="/home" />;
 
+        const { responseError } = this.state;
         const usernameInput = {
             name: "name",
             label: "Name",
@@ -87,7 +86,9 @@ class RegisterScreen extends Form {
             variant: "success",
             text: "Create Account",
             block: true,
+            disabled: this.props.userRegister.loading ? true : false,
         };
+
         return (
             <Container>
                 <h1 className="text-center my-2 mb-4 py-2">Create Account</h1>
@@ -125,6 +126,7 @@ class RegisterScreen extends Form {
 const mapStateToProps = (state) => {
     return {
         userRegister: state.userRegister,
+        isLoggedIn: state.userLogin.isLoggedIn,
     };
 };
 
