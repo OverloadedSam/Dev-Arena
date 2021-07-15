@@ -33,3 +33,35 @@ export const registerUser = (payload) => async (dispatch) => {
 export const resetRegisterUser = () => (dispatch) => {
     dispatch({ type: actions.USER_REGISTER_RESET });
 };
+
+export const loginUser = (payload) => async (dispatch) => {
+    dispatch({ type: actions.USER_LOGIN_REQUESTED });
+
+    try {
+        const { data } = await http.post("/login", payload);
+        dispatch({
+            type: actions.USER_LOGIN_SUCCEEDED,
+            payload: data,
+        });
+
+        const { token } = data;
+        const user = {
+            name: data.name,
+            email: data.email,
+        };
+
+        auth.saveUserAndAuthToken(token, user);
+    } catch (error) {
+        dispatch({
+            type: actions.USER_LOGIN_FAILED,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+export const resetLoginUser = () => (dispatch) => {
+    dispatch({ type: actions.USER_LOGIN_RESET });
+};
