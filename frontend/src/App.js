@@ -10,6 +10,7 @@ import Footer from "./components/footer";
 import HomeScreen from "./screens/homeScreen";
 import RegisterScreen from "./screens/registerScreen";
 import LoginScreen from "./screens/loginScreen";
+import Logout from "./components/logout"
 
 import "./css/bootstrap.min.css";
 import "./css/index.css";
@@ -23,6 +24,7 @@ const App = () => {
                     <Header />
                     <main>
                         <Switch>
+                            <Route exact path="/logout" component={Logout} />
                             <Route path="/login" component={LoginScreen} />
                             <Route path="/register" component={RegisterScreen} />
                             <Route path="/home" component={HomeScreen} />
