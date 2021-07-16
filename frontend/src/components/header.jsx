@@ -1,11 +1,22 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 class Header extends Component {
+    renderTooltip = (props) => (
+        <Tooltip id="button-tooltip" {...props}>
+            Logout
+        </Tooltip>
+    );
+
     render() {
+        const isLoggedIn = this.props.isLoggedIn;
+
         return (
             <div className="header-wrapper">
                 <Navbar
@@ -35,40 +46,70 @@ class Header extends Component {
                                 <i className="ml-3 px-0 fa fa-users"></i>{" "}
                                 Developers
                             </NavLink>
-                            <NavLink
-                                to="/posts"
-                                className="nav-link mx-auto navbar-item text-decoration-none"
-                            >
-                                <i className="ml-3 px-0 fa fa-newspaper-o"></i>{" "}
-                                Posts
-                            </NavLink>
+                            {isLoggedIn && (
+                                <NavLink
+                                    to="/posts"
+                                    className="nav-link mx-auto navbar-item text-decoration-none"
+                                >
+                                    <i className="ml-3 px-0 fa fa-newspaper-o"></i>{" "}
+                                    Posts
+                                </NavLink>
+                            )}
                         </Nav>
                         <Nav className="ml-auto">
-                            <NavLink
-                                to="/login"
-                                className="nav-link mx-auto navbar-item text-decoration-none"
-                            >
-                                <Button variant="danger">
-                                    <i className="fa fa-sign-in"> </i> Log in
-                                </Button>
-                            </NavLink>
-                            <NavLink
-                                to="/register"
-                                className="nav-link mx-auto navbar-item text-decoration-none"
-                            >
-                                <Button variant="outline-success">
-                                    <i className="fa fa-user-plus"> </i>{" "}
-                                    Register
-                                </Button>
-                            </NavLink>
-                            {/* <NavLink
-                                to="/logout"
-                                className="nav-link mx-auto navbar-item text-decoration-none"
-                            >
-                                <Button variant="warning">
-                                    <i className="fa fa-power-off"> </i> Logout
-                                </Button>
-                            </NavLink> */}
+                            {!isLoggedIn && (
+                                <>
+                                    <NavLink
+                                        to="/login"
+                                        className="nav-link mx-auto navbar-item text-decoration-none"
+                                    >
+                                        <Button variant="danger">
+                                            <i className="fa fa-sign-in"> </i>{" "}
+                                            Log in
+                                        </Button>
+                                    </NavLink>
+                                    <NavLink
+                                        to="/register"
+                                        className="nav-link mx-auto navbar-item text-decoration-none"
+                                    >
+                                        <Button variant="outline-success">
+                                            <i className="fa fa-user-plus"> </i>{" "}
+                                            Register
+                                        </Button>
+                                    </NavLink>
+                                </>
+                            )}
+
+                            {isLoggedIn && (
+                                <>
+                                    <NavLink
+                                        to="/me"
+                                        className="nav-link mx-auto navbar-item text-decoration-none"
+                                    >
+                                        <Button
+                                            variant="outline-info"
+                                            className="text-light"
+                                        >
+                                            <i className="fa fa-user-circle"></i>{" "}
+                                            Dashboard
+                                        </Button>
+                                    </NavLink>
+                                    <OverlayTrigger
+                                        placement="bottom"
+                                        delay={{ show: 250, hide: 400 }}
+                                        overlay={this.renderTooltip}
+                                    >
+                                        <NavLink
+                                            to="/logout"
+                                            className="nav-link mx-auto navbar-item text-decoration-none"
+                                        >
+                                            <Button variant="warning">
+                                                <i className="fa fa-power-off"></i>
+                                            </Button>
+                                        </NavLink>
+                                    </OverlayTrigger>
+                                </>
+                            )}
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
@@ -77,4 +118,8 @@ class Header extends Component {
     }
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+    return { isLoggedIn: state.userLogin.isLoggedIn };
+};
+
+export default connect(mapStateToProps)(Header);
