@@ -9,6 +9,20 @@
     color: #f39c12 !important;
 }
 
+button[disabled] {
+    cursor: no-drop;
+}
+
+.disable-scrollbars::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+.disable-scrollbars {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
 /* Header */
 .header {
     z-index: 5;
