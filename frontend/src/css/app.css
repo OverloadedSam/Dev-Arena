@@ -87,3 +87,11 @@ button[disabled] {
 .content {
     z-index: 2;
 }
+
+.not-found {
+    height: 85vh;
+}
+
+.not-found-image {
+    width: 200px;
+}
