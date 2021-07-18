@@ -12,6 +12,7 @@ import RegisterScreen from "./screens/registerScreen";
 import LoginScreen from "./screens/loginScreen";
 import Logout from "./components/logout"
 import NotFound from "./common/notFound";
+import DevelopersScreen from "./screens/developersScreen";
 
 import "./css/bootstrap.min.css";
 import "./css/index.css";
@@ -25,6 +26,7 @@ const App = () => {
                     <Header />
                     <main>
                         <Switch>
+                            <Route exact path="/developers" component={DevelopersScreen} />
                             <Route exact path="/not-found" component={NotFound} />
                             <Route exact path="/logout" component={Logout} />
                             <Route path="/login" component={LoginScreen} />
