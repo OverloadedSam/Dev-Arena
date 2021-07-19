@@ -14,6 +14,7 @@ export const registerUser = (payload) => async (dispatch) => {
 
         const { token } = data;
         const user = {
+            id: data._id,
             name: data.name,
             email: data.email,
         };
@@ -46,6 +47,7 @@ export const loginUser = (payload) => async (dispatch) => {
 
         const { token } = data;
         const user = {
+            id: data._id,
             name: data.name,
             email: data.email,
         };

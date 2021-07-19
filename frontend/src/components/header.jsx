@@ -83,7 +83,7 @@ class Header extends Component {
                             {isLoggedIn && (
                                 <>
                                     <NavLink
-                                        to="/me"
+                                        to="/dashboard"
                                         className="nav-link mx-auto navbar-item text-decoration-none"
                                     >
                                         <Button
