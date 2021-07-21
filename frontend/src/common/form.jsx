@@ -55,11 +55,11 @@ class Form extends Component {
 
     renderInput = (attributes) => {
         const { errors, data } = this.state;
-        const { name, ...rest } = attributes;
+        const { name, onChangeHandler, ...rest } = attributes;
         return (
             <Input
                 idAndName={name}
-                onChange={this.handleChange}
+                onChange={onChangeHandler || this.handleChange}
                 error={errors[name]}
                 isInvalid={errors[name] ? true : false}
                 value={data[name]}
