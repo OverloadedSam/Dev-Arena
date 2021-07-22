@@ -84,12 +84,15 @@ const createProfile = asyncHandler(async (req, res, next) => {
 
     // Make links proper valid url.
     const urlOptions = { forceHttps: true };
-    profileFields.website =
-        profileFields.website && normalize(profileFields.website, urlOptions);
+    profileFields.website = profileFields.website
+        ? normalize(profileFields.website, urlOptions)
+        : "";
 
     const iterable = Object.entries(socialHandles);
     for (const [key, value] of iterable) {
-        socialHandles[key] = normalize(value, urlOptions);
+        socialHandles[key] = socialHandles[key]
+            ? normalize(value, urlOptions)
+            : "";
     }
 
     const filter = { user: userId };
