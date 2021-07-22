@@ -12,19 +12,18 @@ exports.validateUserData = (data) => {
 
 const profileSchema = {
     status: Joi.string().required().label("Status"),
-    company: Joi.string().min(2).label("Company"),
-    website: Joi.string().min(4).label("Website"),
-    location: Joi.string().min(2).label("Location"),
+    company: Joi.string().min(2).label("Company").allow(""),
+    website: Joi.string().min(4).label("Website").allow(""),
+    location: Joi.string().min(2).label("Location").allow(""),
     skills: Joi.array().required().items(Joi.string()).label("Skills"),
-    githubUsername: Joi.string().label("Github username"),
-    bio: Joi.string().max(256).label("Bio"),
+    githubUsername: Joi.string().label("Github username").allow(""),
+    bio: Joi.string().max(256).label("Bio").allow(""),
     socialHandles: Joi.object({
-        linkedin: Joi.string(),
-        facebook: Joi.string(),
-        github: Joi.string(),
-        instagram: Joi.string(),
-        twitter: Joi.string(),
-        youtube: Joi.string(),
+        linkedin: Joi.string().allow(""),
+        facebook: Joi.string().allow(""),
+        instagram: Joi.string().allow(""),
+        twitter: Joi.string().allow(""),
+        youtube: Joi.string().allow(""),
     }),
 };
 

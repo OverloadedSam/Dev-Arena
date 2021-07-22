@@ -34,7 +34,7 @@ const profileSchema = new mongoose.Schema(
                 "Intern",
                 "Other",
             ],
-            require: [true, "status can not be left empty!"],
+            required: [true, "status can not be left empty!"],
             trim: true,
         },
         skills: {
@@ -143,9 +143,6 @@ const profileSchema = new mongoose.Schema(
                 type: String,
             },
             facebook: {
-                type: String,
-            },
-            github: {
                 type: String,
             },
             instagram: {
