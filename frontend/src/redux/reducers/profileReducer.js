@@ -32,3 +32,48 @@ export const profilesListReducer = (state = profilesListInitState, action) => {
             return state;
     }
 };
+
+const currentUserProfileInitState = {
+    loading: false,
+    error: null,
+    success: false,
+    profileData: null,
+};
+
+export const profileReducer = (state = currentUserProfileInitState, action) => {
+    switch (action.type) {
+        case actions.CURRENT_USER_PROFILE_REQUESTED:
+            return {
+                ...currentUserProfileInitState,
+                loading: true,
+            };
+        case actions.CURRENT_USER_PROFILE_SUCCEEDED:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                profileData: action.payload,
+            };
+        case actions.CURRENT_USER_PROFILE_EMPTY:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+                profileNotSet: true,
+            };
+        case actions.CURRENT_USER_PROFILE_FAILED:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+
+        case actions.PROFILE_RESET:
+            return {
+                ...currentUserProfileInitState,
+            };
+
+        default:
+            return state;
+    }
+};

@@ -3,12 +3,13 @@ import thunk from "redux-thunk";
 import auth from "../services/authService";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { userRegisterReducer, userLoginReducer } from "./reducers/userReducer";
-import { profilesListReducer } from "./reducers/profileReducer";
+import { profilesListReducer, profileReducer } from "./reducers/profileReducer";
 
 const rootReducer = combineReducers({
     userRegister: userRegisterReducer,
     userLogin: userLoginReducer,
     profiles: profilesListReducer,
+    profile: profileReducer,
 });
 
 const middleware = [thunk];
