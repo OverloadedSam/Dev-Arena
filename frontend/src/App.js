@@ -5,6 +5,7 @@ import {
     Redirect,
     Switch,
 } from "react-router-dom";
+import ProtectedRoute from "./common/protectedRoute";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import HomeScreen from "./screens/homeScreen";
@@ -13,6 +14,7 @@ import LoginScreen from "./screens/loginScreen";
 import Logout from "./components/logout"
 import NotFound from "./common/notFound";
 import DevelopersScreen from "./screens/developersScreen";
+import DashboardScreen from "./screens/dashboardScreen";
 
 import "./css/bootstrap.min.css";
 import "./css/index.css";
@@ -26,6 +28,7 @@ const App = () => {
                     <Header />
                     <main>
                         <Switch>
+                            <ProtectedRoute path="/dashboard" component={DashboardScreen} />
                             <Route exact path="/developers" component={DevelopersScreen} />
                             <Route exact path="/not-found" component={NotFound} />
                             <Route exact path="/logout" component={Logout} />
