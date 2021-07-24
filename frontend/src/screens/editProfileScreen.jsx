@@ -10,6 +10,8 @@ import Form from "../common/form";
 import {
     getCurrentUserProfile,
     resetProfile,
+    updateUserProfile,
+    resetUpdateProfile,
 } from "../redux/actions/profileActions";
 
 class EditProfileScreen extends Form {
@@ -21,6 +23,7 @@ class EditProfileScreen extends Form {
             location: "",
             skills: [],
             githubUsername: "",
+            bio: "",
             linkedin: "",
             facebook: "",
             instagram: "",
@@ -29,10 +32,10 @@ class EditProfileScreen extends Form {
         },
         errors: {},
         showSocialInputs: "d-none",
+        responseError: "",
     };
 
     schema = {
-        userName: Joi.string().label("User Name").allow(""),
         company: Joi.string().label("Company").allow(""),
         website: Joi.string().min(4).label("Website").allow(""),
         location: Joi.string().label("Location").allow(""),
@@ -41,6 +44,7 @@ class EditProfileScreen extends Form {
             .required()
             .label("Skills"),
         githubUsername: Joi.string().label("Github Username").allow(""),
+        bio: Joi.string().max(256).label("Bio").allow(""),
         status: Joi.string().required().label("Status"),
         linkedin: Joi.string().label("Github Username").allow(""),
         facebook: Joi.string().label("Facebook").allow(""),
@@ -76,7 +80,22 @@ class EditProfileScreen extends Form {
         this.setState({ showSocialInputs });
     };
 
-    performSubmit = (e) => {};
+    performSubmit = (e) => {
+        const payload = { ...this.state.data, socialHandles: {} };
+        const socialsFields = [
+            "linkedin",
+            "facebook",
+            "instagram",
+            "twitter",
+            "youtube",
+        ];
+
+        for (const item of socialsFields) {
+            payload.socialHandles[item] = payload[item];
+            delete payload[item];
+        }
+        this.props.updateUserProfile(payload);
+    };
 
     componentDidMount() {
         this.props.getCurrentUserProfile();
@@ -85,6 +104,8 @@ class EditProfileScreen extends Form {
     componentDidUpdate(prevProps, prevState) {
         const { success, profileData } = this.props.profile;
         const { success: prevSuccess } = prevProps.profile;
+        const { success: profileUpdated, error: updateProfileError } =
+            this.props.updateProfile;
 
         if (success && profileData && prevSuccess === false) {
             let data = { ...this.state.data };
@@ -95,20 +116,28 @@ class EditProfileScreen extends Form {
             delete profileData.education;
             delete profileData.experiences;
             delete profileData.user;
-            delete profileData.bio;
             data = { ...data, ...profileData, ...profileData.socialHandles };
             delete data.socialHandles;
 
             this.setState({ data });
         }
+
+        if (profileUpdated) {
+            this.props.history.push("/dashboard");
+        }
+        if (updateProfileError) {
+            this.props.resetProfileUpdate();
+            this.setState({ responseError: updateProfileError });
+        }
     }
 
     componentWillUnmount() {
         this.props.resetProfile();
+        this.props.resetProfileUpdate();
     }
 
     render() {
-        const { showSocialInputs } = this.state;
+        const { showSocialInputs, responseError } = this.state;
         const { loading, error, success, profileNotSet } = this.props.profile;
 
         const status = {
@@ -159,7 +188,12 @@ class EditProfileScreen extends Form {
             label: "Github username",
             placeholder: "Enter your github username",
         };
-
+        const bio = {
+            name: "bio",
+            label: "Bio",
+            as: "textarea",
+            placeholder: "Your bio goes here...",
+        };
         const linkedin = {
             name: "linkedin",
             label: (
@@ -217,9 +251,10 @@ class EditProfileScreen extends Form {
             onClick: this.toggleSocialInputs,
         };
         const createButton = {
-            text: "Create profile",
+            text: "Save Profile",
             variant: "success",
             block: true,
+            disabled: this.props.updateProfile.loading ? true : false,
         };
 
         return (
@@ -235,10 +270,10 @@ class EditProfileScreen extends Form {
                         </h1>
                         <BootstrapForm>
                             <Row className="justify-content-center align-items-center flex-column">
-                                {false && (
+                                {responseError && (
                                     <Col md={6} className="mb-0">
                                         <p className="text-danger text-center font-weight-bold my-2">
-                                            {"responseError"}
+                                            {responseError}
                                         </p>
                                     </Col>
                                 )}
@@ -248,6 +283,7 @@ class EditProfileScreen extends Form {
                                 {this.renderInput(city)}
                                 {this.renderInput(skills)}
                                 {this.renderInput(githubUsername)}
+                                {this.renderInput(bio)}
                                 {this.renderButton(socialInputsTogglerBtn)}
                                 {this.renderInput(linkedin)}
                                 {this.renderInput(facebook)}
@@ -267,13 +303,18 @@ class EditProfileScreen extends Form {
 }
 
 const mapStateToProps = (state) => {
-    return { profile: state.profile };
+    return {
+        profile: state.profile,
+        updateProfile: state.updateProfile,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         getCurrentUserProfile: () => dispatch(getCurrentUserProfile()),
         resetProfile: () => dispatch(resetProfile()),
+        updateUserProfile: (payload) => dispatch(updateUserProfile(payload)),
+        resetProfileUpdate: () => dispatch(resetUpdateProfile()),
     };
 };
 
