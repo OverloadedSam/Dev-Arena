@@ -15,6 +15,7 @@ import Logout from "./components/logout"
 import NotFound from "./common/notFound";
 import DevelopersScreen from "./screens/developersScreen";
 import DashboardScreen from "./screens/dashboardScreen";
+import EditProfileScreen from "./screens/editProfileScreen";
 
 import "./css/bootstrap.min.css";
 import "./css/index.css";
@@ -28,6 +29,7 @@ const App = () => {
                     <Header />
                     <main>
                         <Switch>
+                            <ProtectedRoute path="/edit-Profile" component={EditProfileScreen} />
                             <ProtectedRoute path="/dashboard" component={DashboardScreen} />
                             <Route exact path="/developers" component={DevelopersScreen} />
                             <Route exact path="/not-found" component={NotFound} />
