@@ -8,3 +8,9 @@ export const CURRENT_USER_PROFILE_EMPTY = "currentUserProfileEmpty";
 export const CURRENT_USER_PROFILE_FAILED = "currentUserProfileFailed";
 
 export const PROFILE_RESET = "profileReset";
+
+export const PROFILE_UPDATE_REQUESTED = "profileUpdateRequested";
+export const PROFILE_UPDATE_SUCCEEDED = "profileUpdateSucceeded";
+export const PROFILE_UPDATE_FAILED = "profileUpdateFailed";
+
+export const PROFILE_UPDATE_RESET = "profileUpdateReset";

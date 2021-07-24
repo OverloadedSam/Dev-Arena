@@ -77,3 +77,43 @@ export const profileReducer = (state = currentUserProfileInitState, action) => {
             return state;
     }
 };
+
+const updateProfileInitState = {
+    loading: false,
+    error: null,
+    success: false,
+    updatedData: null,
+};
+
+export const updateProfileReducer = (
+    state = updateProfileInitState,
+    action
+) => {
+    switch (action.type) {
+        case actions.PROFILE_UPDATE_REQUESTED:
+            return {
+                ...currentUserProfileInitState,
+                loading: true,
+            };
+        case actions.PROFILE_UPDATE_SUCCEEDED:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                updatedData: action.payload,
+            };
+        case actions.PROFILE_UPDATE_FAILED:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+
+        case actions.PROFILE_UPDATE_RESET:
+            return {
+                ...updateProfileInitState,
+            };
+        default:
+            return state;
+    }
+};

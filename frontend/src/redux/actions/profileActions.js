@@ -31,7 +31,6 @@ export const getCurrentUserProfile = () => async (dispatch) => {
             payload: data.data.message ? null : data.data,
         });
     } catch (error) {
-
         const actionType =
             error.response.status === 404
                 ? actions.CURRENT_USER_PROFILE_EMPTY
@@ -49,6 +48,30 @@ export const getCurrentUserProfile = () => async (dispatch) => {
     }
 };
 
-export const resetProfile = () => async (dispatch) => {
+export const resetProfile = () => (dispatch) => {
     dispatch({ type: actions.PROFILE_RESET });
+};
+
+export const updateUserProfile = (payload) => async (dispatch) => {
+    dispatch({ type: actions.PROFILE_UPDATE_REQUESTED });
+
+    try {
+        const { data } = await http.post("/profile", payload);
+        dispatch({
+            type: actions.PROFILE_UPDATE_SUCCEEDED,
+            payload: data.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: actions.PROFILE_UPDATE_FAILED,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+export const resetUpdateProfile = () => (dispatch) => {
+    dispatch({ type: actions.PROFILE_UPDATE_RESET });
 };
