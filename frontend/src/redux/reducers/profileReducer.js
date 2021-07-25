@@ -90,9 +90,10 @@ export const updateProfileReducer = (
     action
 ) => {
     switch (action.type) {
+        // Create or Update User Profile.
         case actions.PROFILE_UPDATE_REQUESTED:
             return {
-                ...currentUserProfileInitState,
+                ...updateProfileInitState,
                 loading: true,
             };
         case actions.PROFILE_UPDATE_SUCCEEDED:
