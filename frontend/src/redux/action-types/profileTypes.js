@@ -14,3 +14,7 @@ export const PROFILE_UPDATE_SUCCEEDED = "profileUpdateSucceeded";
 export const PROFILE_UPDATE_FAILED = "profileUpdateFailed";
 
 export const PROFILE_UPDATE_RESET = "profileUpdateReset";
+
+export const ADD_EXPERIENCE_REQUESTED = "addExperienceRequested";
+export const ADD_EXPERIENCE_SUCCEEDED = "addExperienceSucceeded";
+export const ADD_EXPERIENCE_FAILED = "addExperienceFailed";

@@ -75,3 +75,23 @@ export const updateUserProfile = (payload) => async (dispatch) => {
 export const resetUpdateProfile = () => (dispatch) => {
     dispatch({ type: actions.PROFILE_UPDATE_RESET });
 };
+
+export const addExperience = (payload) => async (dispatch) => {
+    dispatch({ type: actions.ADD_EXPERIENCE_REQUESTED });
+
+    try {
+        const { data } = await http.put("/profile/experience", payload);
+        dispatch({
+            type: actions.ADD_EXPERIENCE_SUCCEEDED,
+            payload: data.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: actions.ADD_EXPERIENCE_FAILED,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
