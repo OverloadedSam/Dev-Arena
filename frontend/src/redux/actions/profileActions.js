@@ -95,3 +95,23 @@ export const addExperience = (payload) => async (dispatch) => {
         });
     }
 };
+
+export const addEducation = (payload) => async (dispatch) => {
+    dispatch({ type: actions.ADD_EDUCATION_REQUESTED });
+
+    try {
+        const { data } = await http.put("/profile/education", payload);
+        dispatch({
+            type: actions.ADD_EDUCATION_SUCCEEDED,
+            payload: data.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: actions.ADD_EDUCATION_FAILED,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};

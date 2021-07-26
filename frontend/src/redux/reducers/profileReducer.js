@@ -130,6 +130,26 @@ export const updateProfileReducer = (
                 error: action.payload,
             };
 
+        // Add Educational Qualifications.
+        case actions.ADD_EDUCATION_REQUESTED:
+            return {
+                ...updateProfileInitState,
+                loading: true,
+            };
+        case actions.ADD_EDUCATION_SUCCEEDED:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                updatedData: action.payload,
+            };
+        case actions.ADD_EDUCATION_FAILED:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+
         case actions.PROFILE_UPDATE_RESET:
             return {
                 ...updateProfileInitState,

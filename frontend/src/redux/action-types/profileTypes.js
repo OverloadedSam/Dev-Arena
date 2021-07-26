@@ -18,3 +18,7 @@ export const PROFILE_UPDATE_RESET = "profileUpdateReset";
 export const ADD_EXPERIENCE_REQUESTED = "addExperienceRequested";
 export const ADD_EXPERIENCE_SUCCEEDED = "addExperienceSucceeded";
 export const ADD_EXPERIENCE_FAILED = "addExperienceFailed";
+
+export const ADD_EDUCATION_REQUESTED = "addEducationRequested";
+export const ADD_EDUCATION_SUCCEEDED = "addEducationSucceeded";
+export const ADD_EDUCATION_FAILED = "addEducationFailed";
