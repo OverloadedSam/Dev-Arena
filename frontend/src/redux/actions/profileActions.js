@@ -32,7 +32,9 @@ export const getCurrentUserProfile = () => async (dispatch) => {
         });
     } catch (error) {
         const actionType =
-            error.response.status === 404
+            error.message === "Network Error"
+                ? actions.CURRENT_USER_PROFILE_FAILED
+                : error.response.status === 404
                 ? actions.CURRENT_USER_PROFILE_EMPTY
                 : actions.CURRENT_USER_PROFILE_FAILED;
 
