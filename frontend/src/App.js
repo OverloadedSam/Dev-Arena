@@ -35,9 +35,9 @@ const App = () => {
                             <ProtectedRoute path="/add-experience" component={AddExperienceScreen} />
                             <ProtectedRoute path="/edit-Profile" component={EditProfileScreen} />
                             <ProtectedRoute path="/dashboard" component={DashboardScreen} />
-                            <Route exact path="/developers" component={DevelopersScreen} />
-                            <Route exact path="/not-found" component={NotFound} />
-                            <Route exact path="/logout" component={Logout} />
+                            <Route path="/developers" component={DevelopersScreen} />
+                            <Route path="/not-found" component={NotFound} />
+                            <Route path="/logout" component={Logout} />
                             <Route path="/login" component={LoginScreen} />
                             <Route path="/register" component={RegisterScreen} />
                             <Route path="/home" component={HomeScreen} />
