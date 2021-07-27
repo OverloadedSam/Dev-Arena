@@ -6,10 +6,15 @@ import Button from "react-bootstrap/Button";
 import Loader from "../common/loader";
 import MyTable from "../common/table";
 import auth from "../services/authService";
-import { getCurrentUserProfile } from "../redux/actions/profileActions";
+import {
+    deleteExperience,
+    getCurrentUserProfile,
+} from "../redux/actions/profileActions";
 
 class DashboardScreen extends Component {
-    handleDeleteExperience = (id) => {};
+    handleDeleteExperience = (id) => {
+        this.props.deleteExperience(id);
+    };
 
     handleDeleteEducation = (id) => {};
 
@@ -32,6 +37,7 @@ class DashboardScreen extends Component {
         const { id: userId, name: userName } = auth.getCurrentUser();
         const { loading, error, success, profileData, profileNotSet } =
             this.props.profile;
+        const updateProfile = this.props.updateProfile;
 
         const ExperienceColumns = [
             {
@@ -57,6 +63,7 @@ class DashboardScreen extends Component {
                     <Button
                         variant="danger"
                         size="sm"
+                        disabled={updateProfile.loading ? true : false}
                         onClick={() => this.handleDeleteExperience(item._id)}
                     >
                         <i className="fa fa-trash"></i>
@@ -178,12 +185,16 @@ class DashboardScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return { profile: state.profile };
+    return {
+        profile: state.profile,
+        updateProfile: state.updateProfile,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         getCurrentUserProfile: () => dispatch(getCurrentUserProfile()),
+        deleteExperience: (id) => dispatch(deleteExperience(id)),
     };
 };
 
