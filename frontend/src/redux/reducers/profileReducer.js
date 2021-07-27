@@ -170,6 +170,26 @@ export const updateProfileReducer = (
                 error: action.payload,
             };
 
+        // Delete Education Qualification.
+        case actions.DELETE_EDUCATION_REQUESTED:
+            return {
+                ...updateProfileInitState,
+                loading: true,
+            };
+        case actions.DELETE_EDUCATION_SUCCEEDED:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                updatedData: action.payload,
+            };
+        case actions.DELETE_EDUCATION_FAILED:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+
         case actions.PROFILE_UPDATE_RESET:
             return {
                 ...updateProfileInitState,
