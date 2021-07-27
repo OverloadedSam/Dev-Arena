@@ -22,3 +22,7 @@ export const ADD_EXPERIENCE_FAILED = "addExperienceFailed";
 export const ADD_EDUCATION_REQUESTED = "addEducationRequested";
 export const ADD_EDUCATION_SUCCEEDED = "addEducationSucceeded";
 export const ADD_EDUCATION_FAILED = "addEducationFailed";
+
+export const DELETE_EXPERIENCE_REQUESTED = "deleteExperienceRequested";
+export const DELETE_EXPERIENCE_SUCCEEDED = "deleteExperienceSucceeded";
+export const DELETE_EXPERIENCE_FAILED = "deleteExperienceFailed";

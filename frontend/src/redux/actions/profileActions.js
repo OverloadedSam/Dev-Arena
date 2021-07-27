@@ -117,3 +117,36 @@ export const addEducation = (payload) => async (dispatch) => {
         });
     }
 };
+
+export const deleteExperience = (id) => async (dispatch, getState) => {
+    dispatch({ type: actions.DELETE_EXPERIENCE_REQUESTED });
+    const oldState = getState().profile.profileData;
+    const apiEndpoint = `/profile/delete/experience/${id}`;
+
+    try {
+        const { data } = await http.delete(apiEndpoint);
+
+        if (data.success) {
+            dispatch({
+                type: actions.DELETE_EXPERIENCE_SUCCEEDED,
+                payload: data.data,
+            });
+            dispatch({
+                type: actions.CURRENT_USER_PROFILE_SUCCEEDED,
+                payload: data.data,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actions.DELETE_EXPERIENCE_FAILED,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+        dispatch({
+            type: actions.CURRENT_USER_PROFILE_SUCCEEDED,
+            payload: oldState,
+        });
+    }
+};

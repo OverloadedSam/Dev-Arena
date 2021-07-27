@@ -110,7 +110,7 @@ export const updateProfileReducer = (
                 error: action.payload,
             };
 
-        // Add Experience credentials.
+        // Add Experience Credentials.
         case actions.ADD_EXPERIENCE_REQUESTED:
             return {
                 ...updateProfileInitState,
@@ -144,6 +144,26 @@ export const updateProfileReducer = (
                 updatedData: action.payload,
             };
         case actions.ADD_EDUCATION_FAILED:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+
+        // Delete Experience Credentials.
+        case actions.DELETE_EXPERIENCE_REQUESTED:
+            return {
+                ...updateProfileInitState,
+                loading: true,
+            };
+        case actions.DELETE_EXPERIENCE_SUCCEEDED:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                updatedData: action.payload,
+            };
+        case actions.DELETE_EXPERIENCE_FAILED:
             return {
                 ...state,
                 loading: false,
