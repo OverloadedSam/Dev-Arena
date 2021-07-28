@@ -101,11 +101,12 @@ class EditProfileScreen extends Form {
         this.props.getCurrentUserProfile();
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         const { success, profileData } = this.props.profile;
-        const { success: prevSuccess } = prevProps.profile;
+        const prevSuccess = prevProps.profile.success;
         const { success: profileUpdated, error: updateProfileError } =
             this.props.updateProfile;
+        const prevUpdateSuccess = prevProps.updateProfile.success;
 
         if (success && profileData && prevSuccess === false) {
             let data = { ...this.state.data };
@@ -122,7 +123,7 @@ class EditProfileScreen extends Form {
             this.setState({ data });
         }
 
-        if (profileUpdated) {
+        if (profileUpdated && prevUpdateSuccess === false) {
             this.props.history.push("/dashboard");
         }
         if (updateProfileError) {
