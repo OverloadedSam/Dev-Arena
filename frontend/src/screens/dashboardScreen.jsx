@@ -7,6 +7,7 @@ import Loader from "../common/loader";
 import MyTable from "../common/table";
 import auth from "../services/authService";
 import {
+    deleteEducation,
     deleteExperience,
     getCurrentUserProfile,
 } from "../redux/actions/profileActions";
@@ -16,7 +17,9 @@ class DashboardScreen extends Component {
         this.props.deleteExperience(id);
     };
 
-    handleDeleteEducation = (id) => {};
+    handleDeleteEducation = (id) => {
+        this.props.deleteEducation(id);
+    };
 
     renderBtn = (text, link, iconClass) => {
         return (
@@ -95,6 +98,7 @@ class DashboardScreen extends Component {
                     <Button
                         variant="danger"
                         size="sm"
+                        disabled={updateProfile.loading ? true : false}
                         onClick={() => this.handleDeleteEducation(item._id)}
                     >
                         <i className="fa fa-trash"></i>
@@ -195,6 +199,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getCurrentUserProfile: () => dispatch(getCurrentUserProfile()),
         deleteExperience: (id) => dispatch(deleteExperience(id)),
+        deleteEducation: (id) => dispatch(deleteEducation(id)),
     };
 };
 

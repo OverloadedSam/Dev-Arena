@@ -54,10 +54,10 @@ class AddEducationScreen extends Form {
         this.props.addEducation(payload);
     };
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         const { success, error } = this.props.updateProfile;
-
-        if (success) this.props.history.push("/dashboard");
+        const prevSuccess = prevProps.updateProfile.success;
+        if (success && !prevSuccess) this.props.history.push("/dashboard");
 
         if (error) {
             this.props.resetProfileUpdate();
