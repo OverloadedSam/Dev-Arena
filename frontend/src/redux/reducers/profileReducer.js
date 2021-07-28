@@ -33,18 +33,19 @@ export const profilesListReducer = (state = profilesListInitState, action) => {
     }
 };
 
-const currentUserProfileInitState = {
+const userProfileDetailsInitState = {
     loading: false,
     error: null,
     success: false,
     profileData: null,
 };
 
-export const profileReducer = (state = currentUserProfileInitState, action) => {
+export const profileReducer = (state = userProfileDetailsInitState, action) => {
     switch (action.type) {
+        // Get Current User.
         case actions.CURRENT_USER_PROFILE_REQUESTED:
             return {
-                ...currentUserProfileInitState,
+                ...userProfileDetailsInitState,
                 loading: true,
             };
         case actions.CURRENT_USER_PROFILE_SUCCEEDED:
@@ -70,7 +71,7 @@ export const profileReducer = (state = currentUserProfileInitState, action) => {
 
         case actions.PROFILE_RESET:
             return {
-                ...currentUserProfileInitState,
+                ...userProfileDetailsInitState,
             };
 
         default:
