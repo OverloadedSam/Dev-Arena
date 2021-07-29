@@ -183,3 +183,23 @@ export const deleteEducation = (id) => async (dispatch, getState) => {
         });
     }
 };
+
+export const getUserProfile = (id) => async (dispatch) => {
+    dispatch({ type: actions.USER_PROFILE_REQUESTED });
+
+    try {
+        const { data } = await http.get(`/profile/user/${id}`);
+        dispatch({
+            type: actions.USER_PROFILE_SUCCEEDED,
+            payload: data.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: actions.USER_PROFILE_FAILED,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};

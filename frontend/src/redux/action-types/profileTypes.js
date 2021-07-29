@@ -7,6 +7,10 @@ export const CURRENT_USER_PROFILE_SUCCEEDED = "currentUserProfileSucceeded";
 export const CURRENT_USER_PROFILE_EMPTY = "currentUserProfileEmpty";
 export const CURRENT_USER_PROFILE_FAILED = "currentUserProfileFailed";
 
+export const USER_PROFILE_REQUESTED = "userProfileRequested";
+export const USER_PROFILE_SUCCEEDED = "userProfileSucceeded";
+export const USER_PROFILE_FAILED = "userProfileFailed";
+
 export const PROFILE_RESET = "profileReset";
 
 export const PROFILE_UPDATE_REQUESTED = "profileUpdateRequested";

@@ -69,6 +69,26 @@ export const profileReducer = (state = userProfileDetailsInitState, action) => {
                 error: action.payload,
             };
 
+        // Get User By Id.
+        case actions.USER_PROFILE_REQUESTED:
+            return {
+                ...userProfileDetailsInitState,
+                loading: true,
+            };
+        case actions.USER_PROFILE_SUCCEEDED:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                profileData: action.payload,
+            };
+        case actions.USER_PROFILE_FAILED:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+
         case actions.PROFILE_RESET:
             return {
                 ...userProfileDetailsInitState,
