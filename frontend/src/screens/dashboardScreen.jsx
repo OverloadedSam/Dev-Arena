@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Loader from "../common/loader";
-import MyTable from "../common/table";
+import ExperienceTable from "../components/experienceTable";
+import EducationTable from "../components/educationTable";
 import auth from "../services/authService";
 import {
     deleteEducation,
@@ -42,70 +43,32 @@ class DashboardScreen extends Component {
             this.props.profile;
         const updateProfile = this.props.updateProfile;
 
-        const ExperienceColumns = [
-            {
-                path: "organization",
-                label: "Company",
-            },
-            {
-                path: "title",
-                label: "Title",
-            },
-            {
-                path: "from",
-                label: "Year",
-                content: (item) => {
-                    let date = item.from.slice(0, 4);
-                    date += item.to ? " - " + item.to.slice(0, 4) : "";
-                    return date;
-                },
-            },
-            {
-                key: "deleteBtnKey",
-                content: (item) => (
-                    <Button
-                        variant="danger"
-                        size="sm"
-                        disabled={updateProfile.loading ? true : false}
-                        onClick={() => this.handleDeleteExperience(item._id)}
-                    >
-                        <i className="fa fa-trash"></i>
-                    </Button>
-                ),
-            },
-        ];
-        const EducationColumns = [
-            {
-                path: "school",
-                label: "School/College",
-            },
-            {
-                path: "degree",
-                label: "Degree",
-            },
-            {
-                path: "from",
-                label: "Year",
-                content: (item) => {
-                    let date = item.from.slice(0, 4);
-                    date += item.to ? " - " + item.to.slice(0, 4) : "";
-                    return date;
-                },
-            },
-            {
-                key: "deleteBtnKey",
-                content: (item) => (
-                    <Button
-                        variant="danger"
-                        size="sm"
-                        disabled={updateProfile.loading ? true : false}
-                        onClick={() => this.handleDeleteEducation(item._id)}
-                    >
-                        <i className="fa fa-trash"></i>
-                    </Button>
-                ),
-            },
-        ];
+        const experienceDeleteColumn = {
+            key: "deleteBtnKey",
+            content: (item) => (
+                <Button
+                    variant="danger"
+                    size="sm"
+                    disabled={updateProfile.loading ? true : false}
+                    onClick={() => this.handleDeleteExperience(item._id)}
+                >
+                    <i className="fa fa-trash"></i>
+                </Button>
+            ),
+        };
+        const educationDeleteColumn = {
+            key: "deleteBtnKey",
+            content: (item) => (
+                <Button
+                    variant="danger"
+                    size="sm"
+                    disabled={updateProfile.loading ? true : false}
+                    onClick={() => this.handleDeleteEducation(item._id)}
+                >
+                    <i className="fa fa-trash"></i>
+                </Button>
+            ),
+        };
 
         return (
             <Container>
@@ -165,18 +128,18 @@ class DashboardScreen extends Component {
                         </div>
 
                         <h3 className="my-4">Experience Credentials</h3>
-                        <div className="overflow-auto">
-                            <MyTable
+                        <div className="overflow-auto disable-scrollbars">
+                            <ExperienceTable
                                 data={profileData.experiences || []}
-                                columns={ExperienceColumns}
+                                column={experienceDeleteColumn}
                             />
                         </div>
 
                         <h3 className="my-4">Educational Qualifications</h3>
-                        <div className="overflow-auto">
-                            <MyTable
+                        <div className="overflow-auto disable-scrollbars">
+                            <EducationTable
                                 data={profileData.education || []}
-                                columns={EducationColumns}
+                                column={educationDeleteColumn}
                             />
                         </div>
                     </>
