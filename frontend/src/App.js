@@ -18,6 +18,7 @@ import DashboardScreen from "./screens/dashboardScreen";
 import EditProfileScreen from "./screens/editProfileScreen";
 import AddExperienceScreen from "./screens/addExperienceScreen";
 import addEducationScreen from "./screens/addEducationScreen";
+import ProfileScreen from "./screens/profileScreen";
 
 import "./css/bootstrap.min.css";
 import "./css/index.css";
@@ -31,6 +32,7 @@ const App = () => {
                     <Header />
                     <main>
                         <Switch>
+                            <Route path="/profile/:id" component={ProfileScreen} />
                             <ProtectedRoute path="/add-education" component={addEducationScreen} />
                             <ProtectedRoute path="/add-experience" component={AddExperienceScreen} />
                             <ProtectedRoute path="/edit-Profile" component={EditProfileScreen} />
