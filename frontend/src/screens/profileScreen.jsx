@@ -6,6 +6,9 @@ import Loader from "../common/loader";
 import ProfileFeaturette from "../components/profileFeaturette";
 import ProfileBio from "../components/profileBio";
 import ProfileSocialHandles from "../components/profileSocialHandles";
+import ProfileSkillSet from "../components/profileSkillSet";
+import ProfileExperiences from "../components/profileExperiences";
+import ProfileEducations from "../components/profileEducations";
 
 class ProfileScreen extends Component {
     componentDidMount() {
@@ -27,6 +30,9 @@ class ProfileScreen extends Component {
                         <ProfileFeaturette {...profile} />
                         <ProfileBio {...profile} />
                         <ProfileSocialHandles {...profile} />
+                        <ProfileSkillSet {...profile} />
+                        <ProfileExperiences {...profile} />
+                        <ProfileEducations {...profile} />
                     </>
                 ) : (
                     ""
