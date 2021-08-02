@@ -5,6 +5,7 @@ import {
     Redirect,
     Switch,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./common/protectedRoute";
 import Header from "./components/header";
 import Footer from "./components/footer";
@@ -24,6 +25,7 @@ import PostScreen from "./screens/postsScreen";
 import "./css/bootstrap.min.css";
 import "./css/index.css";
 import "./css/app.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
     return (
@@ -31,6 +33,7 @@ const App = () => {
             <Router>
                 <>
                     <Header />
+                    <ToastContainer />
                     <main>
                         <Switch>
                             <ProtectedRoute path="/posts" component={PostScreen} />
