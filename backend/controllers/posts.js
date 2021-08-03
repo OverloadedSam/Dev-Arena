@@ -11,7 +11,13 @@ const {
 // @access   Protected
 const getPostById = asyncHandler(async (req, res, next) => {
     postId = req.params.post_id;
-    const post = await Post.findById(postId).populate("user", ["name"]);
+    const post = await Post.findById(postId)
+        .populate("user", ["name"])
+        .populate({
+            path: "comments.user",
+            model: "User",
+            select: "_id name",
+        });
 
     if (!post) return next(new ErrorResponse("Post not found!", 404));
 
