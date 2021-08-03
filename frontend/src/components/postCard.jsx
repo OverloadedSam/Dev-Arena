@@ -6,7 +6,7 @@ import Badge from "react-bootstrap/Badge";
 import PostCreationDetails from "./postCreationDetails";
 
 class PostCard extends Component {
-    countVotes = (votes) => votes.upVotes.length - votes.downVotes.length;
+    calculateVotes = (votes) => votes.upVotes.length - votes.downVotes.length;
 
     countComments = (comments) => comments.length;
 
@@ -29,7 +29,7 @@ class PostCard extends Component {
                     <Col xs={2} className="px-2">
                         <div className="d-flex align-items-center flex-column">
                             <h5 className="font-weight-bold">
-                                {this.countVotes(votes)}
+                                {this.calculateVotes(votes)}
                             </h5>
                             <p
                                 title={`${upVotes} Upvotes and ${downVotes} Downvotes`}
@@ -49,7 +49,7 @@ class PostCard extends Component {
                             <Col>
                                 <h4 className="font-weight-bold">
                                     <Link
-                                        to={`post/${_id}`}
+                                        to={`/post/${_id}`}
                                         className="text-decoration-none text-info"
                                     >
                                         <span>Q:</span> {title}
@@ -58,7 +58,6 @@ class PostCard extends Component {
                             </Col>
                             <Col>
                                 <p
-                                    className="tmb-1"
                                     style={{ whiteSpace: "pre-line" }}
                                 >
                                     <span

@@ -40,16 +40,16 @@ export class PostCreationDetails extends Component {
                     by
                     <Link
                         title="View profile"
-                        to={`profile/${user._id}`}
+                        to={`/profile/${user._id}`}
                         className="pr-2 clickable text-capitalize text-decoration-none"
                     >
                         {" "}
                         {user.name}
                     </Link>
                 </span>
-                <Link to={`profile/${user._id}`}>
+                <Link to={`/profile/${user._id}`}>
                     <Image
-                        src={avatar ? avatar : "assets/images/avatar.png"}
+                        src={avatar ? avatar : "/assets/images/avatar.png"}
                         alt={user.name}
                         style={{ width: "30px" }}
                     />
