@@ -21,6 +21,7 @@ import AddExperienceScreen from "./screens/addExperienceScreen";
 import addEducationScreen from "./screens/addEducationScreen";
 import ProfileScreen from "./screens/profileScreen";
 import PostScreen from "./screens/postsScreen";
+import PostDetailsScreen from "./screens/postDetailsScreen";
 
 import "./css/bootstrap.min.css";
 import "./css/index.css";
@@ -36,6 +37,7 @@ const App = () => {
                     <ToastContainer />
                     <main>
                         <Switch>
+                            <ProtectedRoute path="/post/:id" component={PostDetailsScreen} />
                             <ProtectedRoute path="/posts" component={PostScreen} />
                             <Route path="/profile/:id" component={ProfileScreen} />
                             <ProtectedRoute path="/add-education" component={addEducationScreen} />
