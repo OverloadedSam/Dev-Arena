@@ -59,3 +59,34 @@ export const createPostReducer = (state = createPostInitState, action) => {
             return state;
     }
 };
+
+const postInitState = {
+    loading: false,
+    error: null,
+    success: false,
+    postData: null,
+};
+
+export const postReducer = (state = postInitState, action) => {
+    switch (action.type) {
+        // Get a Post By Id.
+        case actions.POST_REQUESTED:
+            return {
+                ...postInitState,
+                loading: true,
+            };
+        case actions.POST_SUCCEEDED:
+            return {
+                loading: false,
+                success: true,
+                postData: action.payload,
+            };
+        case actions.POST_FAILED:
+            return {
+                loading: false,
+                error: action.payload,
+            };
+        default:
+            return state;
+    }
+};

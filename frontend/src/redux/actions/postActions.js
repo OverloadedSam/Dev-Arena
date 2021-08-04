@@ -50,3 +50,23 @@ export const createPost = (payload) => async (dispatch, getState) => {
         });
     }
 };
+
+export const getPostById = (id) => async (dispatch) => {
+    dispatch({ type: actions.POST_REQUESTED });
+
+    try {
+        const { data } = await http.get(`/post/${id}`);
+        dispatch({
+            type: actions.POST_SUCCEEDED,
+            payload: data.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: actions.POST_FAILED,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};

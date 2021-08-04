@@ -8,7 +8,11 @@ import {
     profileReducer,
     updateProfileReducer,
 } from "./reducers/profileReducer";
-import { createPostReducer, postsReducer } from "./reducers/postReducer";
+import {
+    createPostReducer,
+    postReducer,
+    postsReducer,
+} from "./reducers/postReducer";
 
 const rootReducer = combineReducers({
     userRegister: userRegisterReducer,
@@ -18,6 +22,7 @@ const rootReducer = combineReducers({
     updateProfile: updateProfileReducer,
     posts: postsReducer,
     createPost: createPostReducer,
+    post: postReducer,
 });
 
 const middleware = [thunk];
