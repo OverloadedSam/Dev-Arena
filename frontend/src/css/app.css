@@ -100,12 +100,6 @@ button[disabled] {
     font-size: 2.3rem;
 }
 
-.vote-icon.fa-chevron-circle-up:hover,
-.vote-icon.fa-chevron-circle-down:hover {
-    transition: 0.3s;
-    color: #3498db;
-}
-
 .voted {
     color: #3498db;
 }
