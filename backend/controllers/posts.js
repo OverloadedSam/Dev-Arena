@@ -172,9 +172,14 @@ const createComment = asyncHandler(async (req, res, next) => {
     const { error } = validateCommentData(comment);
     if (error) return next(new ErrorResponse(error.details[0].message, 406));
 
-    const post = await Post.findById(postId);
+    const post = await Post.findById(postId).populate({
+        path: "comments.user",
+        model: "User",
+        select: "_id name",
+    });
     if (!post) return next(new ErrorResponse("Post not found!", 404));
 
+    comment.user = { _id: req.user._id, name: req.user.name };
     post.comments.push(comment);
     post.save();
 
