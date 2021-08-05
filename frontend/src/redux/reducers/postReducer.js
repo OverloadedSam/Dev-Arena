@@ -60,11 +60,20 @@ export const createPostReducer = (state = createPostInitState, action) => {
     }
 };
 
+const votingInitState = {
+    voting: false,
+    votingError: false,
+    votedSuccessfully: false,
+    votes: null,
+};
+
 const postInitState = {
     loading: false,
     error: null,
     success: false,
     postData: null,
+
+    ...votingInitState,
 };
 
 export const postReducer = (state = postInitState, action) => {
@@ -77,15 +86,64 @@ export const postReducer = (state = postInitState, action) => {
             };
         case actions.POST_SUCCEEDED:
             return {
+                ...state,
                 loading: false,
                 success: true,
                 postData: action.payload,
             };
         case actions.POST_FAILED:
             return {
+                ...state,
                 loading: false,
                 error: action.payload,
             };
+
+        // UpVote a Post.
+        case actions.UP_VOTE_REQUESTED:
+            return {
+                ...state,
+                voting: "upVoting",
+            };
+        case actions.UP_VOTE_SUCCEEDED:
+            return {
+                ...state,
+                voting: false,
+                votedSuccessfully: true,
+                votes: action.payload,
+            };
+        case actions.UP_VOTE_FAILED:
+            return {
+                ...state,
+                voting: false,
+                votingError: action.payload,
+            };
+
+        // DownVote a Post.
+        case actions.DOWN_VOTE_REQUESTED:
+            return {
+                ...state,
+                voting: "downVoting",
+            };
+        case actions.DOWN_VOTE_SUCCEEDED:
+            return {
+                ...state,
+                voting: false,
+                votedSuccessfully: true,
+                votes: action.payload,
+            };
+        case actions.DOWN_VOTE_FAILED:
+            return {
+                ...state,
+                voting: false,
+                votingError: action.payload,
+            };
+
+        case actions.RESET_VOTING:
+            return {
+                ...state,
+                ...votingInitState,
+            };
+
         default:
             return state;
     }

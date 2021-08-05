@@ -70,3 +70,53 @@ export const getPostById = (id) => async (dispatch) => {
         });
     }
 };
+
+export const upVotePost = (id) => async (dispatch, getState) => {
+    dispatch({ type: actions.UP_VOTE_REQUESTED });
+
+    const postPayload = getState().post.postData;
+    try {
+        const { data } = await http.put(`/post/upvote/${id}`);
+
+        postPayload.votes = data.votes;
+
+        dispatch({ type: actions.UP_VOTE_SUCCEEDED, payload: data.votes });
+        dispatch({ type: actions.POST_SUCCEEDED, payload: postPayload });
+    } catch (error) {
+        dispatch({
+            type: actions.UP_VOTE_FAILED,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+        dispatch({ type: actions.POST_SUCCEEDED, payload: postPayload });
+    }
+};
+
+export const downVotePost = (id) => async (dispatch, getState) => {
+    dispatch({ type: actions.DOWN_VOTE_REQUESTED });
+
+    const postPayload = getState().post.postData;
+    try {
+        const { data } = await http.put(`/post/downvote/${id}`);
+
+        postPayload.votes = data.votes;
+
+        dispatch({ type: actions.DOWN_VOTE_SUCCEEDED, payload: data.votes });
+        dispatch({ type: actions.POST_SUCCEEDED, payload: postPayload });
+    } catch (error) {
+        dispatch({
+            type: actions.DOWN_VOTE_FAILED,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+        dispatch({ type: actions.POST_SUCCEEDED, payload: postPayload });
+    }
+};
+
+export const resetVoting = () => (dispatch) => {
+    dispatch({ type: actions.RESET_VOTING });
+};
