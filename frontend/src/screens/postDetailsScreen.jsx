@@ -23,7 +23,7 @@ export class PostDetailsScreen extends Component {
                     <h3 className="text-center text-danger mt-4">{error}</h3>
                 ) : success && postData ? (
                     <>
-                        <PostDetails {...postData} />
+                        <PostDetails />
                         <Comments {...postData} />
                     </>
                 ) : (
