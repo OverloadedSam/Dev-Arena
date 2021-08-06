@@ -74,6 +74,12 @@ const addCommentInitState = {
     commentData: null,
 };
 
+const deleteCommentInitState = {
+    deletingComment: false,
+    deletingCommentError: false,
+    commentDeleted: false,
+};
+
 const postInitState = {
     loading: false,
     error: null,
@@ -82,6 +88,7 @@ const postInitState = {
 
     ...votingInitState,
     ...addCommentInitState,
+    ...deleteCommentInitState,
 };
 
 export const postReducer = (state = postInitState, action) => {
@@ -170,6 +177,25 @@ export const postReducer = (state = postInitState, action) => {
                 ...state,
                 addingComment: false,
                 addingCommentError: action.payload,
+            };
+
+        // Delete a Comment.
+        case actions.DELETE_COMMENT_REQUESTED:
+            return {
+                ...state,
+                deletingComment: true,
+            };
+        case actions.DELETE_COMMENT_SUCCEEDED:
+            return {
+                ...state,
+                deletingComment: false,
+                commentDeleted: true,
+            };
+        case actions.DELETE_COMMENT_FAILED:
+            return {
+                ...state,
+                deletingComment: false,
+                deletingCommentError: action.payload,
             };
 
         default:

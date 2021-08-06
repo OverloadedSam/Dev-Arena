@@ -152,3 +152,29 @@ export const addComment = (id, payload) => async (dispatch, getState) => {
         });
     }
 };
+
+export const deleteComment =
+    (postId, commentId) => async (dispatch, getState) => {
+        dispatch({ type: actions.DELETE_COMMENT_REQUESTED });
+
+        const postPayload = getState().post.postData;
+        try {
+            await http.delete(`/post/comment/${postId}/${commentId}`);
+
+            postPayload.comments = postPayload.comments.filter(
+                (comment) => comment._id !== commentId
+            );
+
+            dispatch({ type: actions.DELETE_COMMENT_SUCCEEDED });
+            dispatch({ type: actions.POST_SUCCEEDED, payload: postPayload });
+        } catch (error) {
+            dispatch({
+                type: actions.DELETE_COMMENT_FAILED,
+                payload:
+                    error.response && error.response.data.message
+                        ? error.response.data.message
+                        : error.message,
+            });
+            dispatch({ type: actions.POST_SUCCEEDED, payload: postPayload });
+        }
+    };

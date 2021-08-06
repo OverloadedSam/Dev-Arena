@@ -23,3 +23,7 @@ export const RESET_VOTING = "resetVotingState";
 export const ADD_COMMENT_REQUESTED = "addCommentRequested";
 export const ADD_COMMENT_SUCCEEDED = "addCommentSucceeded";
 export const ADD_COMMENT_FAILED = "addCommentFailed";
+
+export const DELETE_COMMENT_REQUESTED = "deleteCommentRequested";
+export const DELETE_COMMENT_SUCCEEDED = "deleteCommentSucceeded";
+export const DELETE_COMMENT_FAILED = "deleteCommentFailed";
