@@ -1,9 +1,40 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 import PostCreationDetails from "./postCreationDetails";
+import { getCurrentUser } from "../services/authService";
+import { deleteComment } from "../redux/actions/postActions";
 
 export class Comment extends Component {
+    handleDelete = (commentId) => {
+        const currentUserId = getCurrentUser().id;
+        const commentUserId = this.props.user._id;
+        const { postId, deleteComment } = this.props;
+
+        if (currentUserId === commentUserId) deleteComment(postId, commentId);
+    };
+
+    renderDeleteButton() {
+        const currentUserId = getCurrentUser().id;
+        const commentUserId = this.props.user._id;
+
+        return currentUserId === commentUserId ? (
+            <Button
+                variant="outline-danger"
+                size="sm"
+                className="my-3"
+                title="Delete Comment"
+                onClick={() => this.handleDelete(this.props._id)}
+            >
+                <i className="fa fa-trash"></i>
+            </Button>
+        ) : (
+            ""
+        );
+    }
+
     render() {
         const { user, avatar, body, date } = this.props;
         return (
@@ -19,6 +50,7 @@ export class Comment extends Component {
                         </p>
                     </Col>
                 </Row>
+                {this.renderDeleteButton()}
                 <div className="text-right">
                     <PostCreationDetails
                         {...this.props}
@@ -32,4 +64,11 @@ export class Comment extends Component {
     }
 }
 
-export default Comment;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        deleteComment: (postId, commentId) =>
+            dispatch(deleteComment(postId, commentId)),
+    };
+};
+
+export default connect(null, mapDispatchToProps)(Comment);

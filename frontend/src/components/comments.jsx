@@ -7,6 +7,7 @@ class Comments extends Component {
     countComments = (comments) => comments.length;
     render() {
         const { comments } = this.props.post.postData;
+        const postId = this.props.post.postData._id;
         return (
             <div>
                 <h3 className="my-3 mb-5">
@@ -15,7 +16,7 @@ class Comments extends Component {
                 </h3>
 
                 {comments.map((comment) => (
-                    <Comment key={comment._id} {...comment} />
+                    <Comment key={comment._id} postId={postId} {...comment} />
                 ))}
 
                 <CreateComment />
