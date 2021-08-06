@@ -67,6 +67,13 @@ const votingInitState = {
     votes: null,
 };
 
+const addCommentInitState = {
+    addingComment: false,
+    addingCommentError: false,
+    commentAdded: false,
+    commentData: null,
+};
+
 const postInitState = {
     loading: false,
     error: null,
@@ -74,6 +81,7 @@ const postInitState = {
     postData: null,
 
     ...votingInitState,
+    ...addCommentInitState,
 };
 
 export const postReducer = (state = postInitState, action) => {
@@ -142,6 +150,26 @@ export const postReducer = (state = postInitState, action) => {
             return {
                 ...state,
                 ...votingInitState,
+            };
+
+        // Add a Comment.
+        case actions.ADD_COMMENT_REQUESTED:
+            return {
+                ...state,
+                addingComment: true,
+            };
+        case actions.ADD_COMMENT_SUCCEEDED:
+            return {
+                ...state,
+                addingComment: false,
+                commentAdded: true,
+                commentData: action.payload,
+            };
+        case actions.ADD_COMMENT_FAILED:
+            return {
+                ...state,
+                addingComment: false,
+                addingCommentError: action.payload,
             };
 
         default:

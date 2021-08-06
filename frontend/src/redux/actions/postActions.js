@@ -120,3 +120,35 @@ export const downVotePost = (id) => async (dispatch, getState) => {
 export const resetVoting = () => (dispatch) => {
     dispatch({ type: actions.RESET_VOTING });
 };
+
+export const addComment = (id, payload) => async (dispatch, getState) => {
+    dispatch({ type: actions.ADD_COMMENT_REQUESTED });
+
+    const postPayload = getState().post.postData;
+    try {
+        const { data } = await http.post(`/post/comment/${id}`, payload);
+
+        postPayload.comments = data.data;
+
+        dispatch({
+            type: actions.ADD_COMMENT_SUCCEEDED,
+            payload: data.data,
+        });
+        dispatch({
+            type: actions.POST_SUCCEEDED,
+            payload: postPayload,
+        });
+    } catch (error) {
+        dispatch({
+            type: actions.ADD_COMMENT_FAILED,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+        dispatch({
+            type: actions.POST_SUCCEEDED,
+            payload: postPayload,
+        });
+    }
+};

@@ -19,3 +19,7 @@ export const DOWN_VOTE_SUCCEEDED = "downVoteSucceeded";
 export const DOWN_VOTE_FAILED = "downVoteFailed";
 
 export const RESET_VOTING = "resetVotingState";
+
+export const ADD_COMMENT_REQUESTED = "addCommentRequested";
+export const ADD_COMMENT_SUCCEEDED = "addCommentSucceeded";
+export const ADD_COMMENT_FAILED = "addCommentFailed";
