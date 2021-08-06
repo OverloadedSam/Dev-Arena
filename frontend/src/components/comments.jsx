@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Comment from "./comment";
 
-class PostComments extends Component {
+class Comments extends Component {
     countComments = (comments) => comments.length;
     render() {
-        const { comments } = this.props;
+        const { comments } = this.props.post.postData;
         return (
             <div>
                 <h3 className="my-3 mb-5">
@@ -20,4 +21,8 @@ class PostComments extends Component {
     }
 }
 
-export default PostComments;
+const mapStateToProps = (state) => {
+    return { post: state.post };
+};
+
+export default connect(mapStateToProps)(Comments);

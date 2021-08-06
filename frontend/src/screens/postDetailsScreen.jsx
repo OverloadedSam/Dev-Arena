@@ -24,7 +24,7 @@ export class PostDetailsScreen extends Component {
                 ) : success && postData ? (
                     <>
                         <PostDetails />
-                        <Comments {...postData} />
+                        <Comments />
                     </>
                 ) : (
                     ""
