@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Comment from "./comment";
+import CreateComment from "./createComment";
 
 class Comments extends Component {
     countComments = (comments) => comments.length;
@@ -16,6 +17,8 @@ class Comments extends Component {
                 {comments.map((comment) => (
                     <Comment key={comment._id} {...comment} />
                 ))}
+
+                <CreateComment />
             </div>
         );
     }
