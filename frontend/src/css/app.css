@@ -1,3 +1,9 @@
+#root {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
 .clickable {
     cursor: pointer;
 }
@@ -30,7 +36,7 @@ button[disabled] {
 
 .footer {
     z-index: 5;
-    position: relative;
+    margin-top: auto;
 }
 
 /* Home screen Video Background */
