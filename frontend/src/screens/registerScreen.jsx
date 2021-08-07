@@ -44,7 +44,7 @@ class RegisterScreen extends Form {
     componentDidUpdate() {
         const { success, error } = this.props.userRegister;
 
-        if (success) return (window.location = "/home");
+        if (success) return (window.location = "/dashboard");
         if (error) {
             this.setState({ responseError: error });
             this.props.resetRegisterUser();
