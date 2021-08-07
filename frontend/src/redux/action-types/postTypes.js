@@ -10,6 +10,11 @@ export const POST_REQUESTED = "postRequested";
 export const POST_SUCCEEDED = "postSucceeded";
 export const POST_FAILED = "postFailed";
 
+export const DELETE_POST_REQUESTED = "deletePostRequested";
+export const DELETE_POST_SUCCEEDED = "deletePostSucceeded";
+export const DELETE_POST_FAILED = "deletePostFailed";
+export const RESET_DELETE_POST = "resetDeletePost";
+
 export const UP_VOTE_REQUESTED = "upVoteRequested";
 export const UP_VOTE_SUCCEEDED = "upVoteSucceeded";
 export const UP_VOTE_FAILED = "upVoteFailed";

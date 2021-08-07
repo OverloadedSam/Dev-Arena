@@ -80,12 +80,19 @@ const deleteCommentInitState = {
     commentDeleted: false,
 };
 
+const deletePostInitState = {
+    deletingPost: false,
+    deletingPostError: false,
+    postDeleted: false,
+};
+
 const postInitState = {
     loading: false,
     error: null,
     success: false,
     postData: null,
 
+    ...deletePostInitState,
     ...votingInitState,
     ...addCommentInitState,
     ...deleteCommentInitState,
@@ -111,6 +118,30 @@ export const postReducer = (state = postInitState, action) => {
                 ...state,
                 loading: false,
                 error: action.payload,
+            };
+
+        // Delete a Post By Id.
+        case actions.DELETE_POST_REQUESTED:
+            return {
+                ...state,
+                deletingPost: true,
+            };
+        case actions.DELETE_POST_SUCCEEDED:
+            return {
+                ...state,
+                deletingPost: false,
+                postDeleted: true,
+            };
+        case actions.DELETE_POST_FAILED:
+            return {
+                ...state,
+                deletingPost: false,
+                deletingPostError: action.payload,
+            };
+        case actions.RESET_DELETE_POST:
+            return {
+                ...state,
+                ...deletePostInitState,
             };
 
         // UpVote a Post.

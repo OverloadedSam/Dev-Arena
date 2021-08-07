@@ -178,3 +178,24 @@ export const deleteComment =
             dispatch({ type: actions.POST_SUCCEEDED, payload: postPayload });
         }
     };
+
+export const deletePost = (postId) => async (dispatch) => {
+    dispatch({ type: actions.DELETE_POST_REQUESTED });
+
+    try {
+        await http.delete(`/post/${postId}`);
+        dispatch({ type: actions.DELETE_POST_SUCCEEDED });
+    } catch (error) {
+        dispatch({
+            type: actions.DELETE_POST_FAILED,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+export const resetDeletePost = () => (dispatch) => {
+    dispatch({ type: actions.RESET_DELETE_POST });
+};
