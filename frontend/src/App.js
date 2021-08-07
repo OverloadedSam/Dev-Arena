@@ -10,6 +10,7 @@ import ProtectedRoute from "./common/protectedRoute";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import HomeScreen from "./screens/homeScreen";
+import About from "./components/about";
 import RegisterScreen from "./screens/registerScreen";
 import LoginScreen from "./screens/loginScreen";
 import Logout from "./components/logout"
@@ -47,6 +48,7 @@ const App = () => {
                             <Route path="/developers" component={DevelopersScreen} />
                             <Route path="/not-found" component={NotFound} />
                             <Route path="/logout" component={Logout} />
+                            <Route path="/about" component={About} />
                             <Route path="/login" component={LoginScreen} />
                             <Route path="/register" component={RegisterScreen} />
                             <Route path="/home" component={HomeScreen} />
