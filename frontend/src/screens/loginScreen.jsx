@@ -33,7 +33,14 @@ class LoginScreen extends Form {
     componentDidUpdate() {
         const { success, error } = this.props.userLogin;
 
-        if (success) return (window.location = "/home");
+        const { state } = this.props.location;
+        if (success) {
+            if (state && state.from.pathname) {
+                window.location = state.from.pathname;
+            } else {
+                window.location = "/dashboard";
+            }
+        }
         if (error) {
             this.setState({ responseError: error });
             this.props.resetLoginUser();
